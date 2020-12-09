@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import UserInterface
+from UserInterface import UserInterface
 
 
 def main():

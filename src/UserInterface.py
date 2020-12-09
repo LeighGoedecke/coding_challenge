@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import json
+
 class UserInterface:
     def retrieve_search_option(self):
         print('\tSelect search options:')
@@ -27,6 +29,7 @@ class UserInterface:
         return searchable_fields
 
     def display_searchable_fields(self, searchable_fields):
+        print(searchable_fields)
         for category in searchable_fields:
             print('----------------------------------')
             print(f'Search {category} with:')
