@@ -11,8 +11,15 @@ class DataStore:
     def __init__(self, data_structure, json_dump):
         self.data_structure = data_structure
         self.json_dump = json_dump
-        self.indexed_by_id = self.__index_by_id()
-        self.indexed_by_field = self.__index_by_field()
+        # self.indexed_by_id = self.__index_by_id()
+        # self.indexed_by_field = self.__index_by_field()
+
+    def index_data(self):
+        id_index = {}
+        field_index = self.__build_field_index_data_structure()
+
+        for data in self.json_dump:
+
 
     def __verify_data_consistency(self):
         # TODO find a way to scan through and ensure no obvious issues in the info
@@ -24,7 +31,8 @@ class DataStore:
             data_structure[field] = {}
         return data_structure
 
-    def __index_by_id(self):
+
+    def __index_by_id(self, data):
         id_index = {}
         for data in self.json_dump:
             if not data['_id'] in id_index:

@@ -1,12 +1,27 @@
 #!/usr/bin/python3
 
 from UserInterface import UserInterface
+from DataStore import DataStore
+from Users import Users
+from Tickets import Tickets
+from Organizations import Organizations
+from data_reader import data_reader
 
 
 def main():
     ui = UserInterface()
-    ui.display_intro()
+    indexed_data = []
+    data_sources = {
+        'resources/organizations.json': Organizations(),
+        'resources/tickets.json': Tickets(),
+        'resources/users.json': Users()
+    }
 
+    for source in data_sources:
+        data = data_reader(source)
+        indexed_data.append(DataStore(data_sources[source], data))
+
+    ui.display_intro()
     while True:
         search_selection = ui.retrieve_search_option()
         if search_selection == '1':
@@ -19,4 +34,5 @@ def main():
             print('Please choose from options \'1\', \'2\' or type \'quit\'')
 
 
-main()
+if __name__ == "__main__":
+    main()
