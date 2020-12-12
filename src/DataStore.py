@@ -48,7 +48,7 @@ class DataStore:
 
             # Managing other fields
             else:
-                if data[field] in field_index[field]:
+                if str(data[field]) in field_index[field]:
                     field_index[field][str(data[field])].append(str(data['_id']))
                 else:
                     field_index[field][str(data[field])] = [str(data['_id'])]

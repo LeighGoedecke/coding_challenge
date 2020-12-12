@@ -21,6 +21,7 @@ class SearchEngine:
 
         associated_ids = [self.__search_id_index(model.name, some_id) for some_id in discovered_ids]
 
+        shared_field_ids = []
         if model.shared_fields and associated_ids:
             shared_field_ids = self.__search_shared_field_info(model.shared_fields, associated_ids)
 

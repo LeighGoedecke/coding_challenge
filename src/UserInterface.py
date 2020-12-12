@@ -9,7 +9,7 @@ class UserInterface:
         print('Please choose from options \'1\', \'2\' or type \'quit\'')
 
     def retrieve_search_option(self):
-        print('\tSelect search options:')
+        print('\n\tSelect search options:')
         print('\t* Press 1 to search Zendesk')
         print('\t* Press 2 to view a list of searchable fields')
         return input('\t* Type \'quit\' to exit\n')
@@ -20,7 +20,7 @@ class UserInterface:
 
     def display_intro(self):
         print('Welcome to Zendesk Search')
-        initial_selection = input('Type \'quit\' at any time to exit. Press \'Enter\' to continue\n')
+        initial_selection = input('Type \'quit\' at any time to exit. Press \'Enter\' to continue. ')
         if initial_selection == 'quit':
             self.exit_search_app()
 
@@ -33,23 +33,51 @@ class UserInterface:
     def display_all_searchable_fields(self, searchable_fields):
         print(searchable_fields)
         for category in searchable_fields:
-            print('----------------------------------')
+            self.__print_underline()
             print(f'Search {category} with:')
             for field in searchable_fields[category].mandatory_fields:
                 print(field)
         print('\n')
 
+    def __print_underline(self):
+        print('--------------------------------------------------------------')
+
+    def __print_delimiter(self):
+        print('                    ----------------------                    ')
+
     def display_search_data(self, search_results):
-        if not search_results:
+        if search_results['primary_data'][0] is None:
             print('No results found')
             return
         print('Primary search results:')
-        for element in search_results['primary_data']:
-            print(element)
+        self.__print_underline()
+        for search_result in search_results['primary_data']:
+            self.__dict_printer(search_result)
         if search_results['shared_field_data']:
-            print('Associated search data:')
-            for element in search_results['shared_field_data']:
-                print(element)
+            print('\nAssociated search data:')
+            self.__print_underline()
+            for result in search_results['shared_field_data']:
+                self.__dict_printer(result)
+
+
+    def __lists_to_strings(self, dict_to_print):
+        tidy_dict = {}
+        for item in dict_to_print:
+            if isinstance(dict_to_print[item], list):
+                dict_to_print[item] = ', '.join(dict_to_print[item])
+
+            value_to_clean = str(dict_to_print[item])
+            if len(value_to_clean) > 40:
+                tidy_dict[item] = str(value_to_clean)[:40]+'...'
+            else:
+                tidy_dict[item] = str(value_to_clean)
+        return tidy_dict
+
+    def __dict_printer(self, dict_to_print):
+        cleaned_dict = self.__lists_to_strings(dict_to_print)
+        # TODO check if the string slice is appropriate
+        [print('{:<25} {:>45}'.format(key, value)) for key, value in cleaned_dict.items()]
+        self.__print_delimiter()
 
 
     def retrieve_search_params(self):
@@ -70,7 +98,10 @@ class UserInterface:
 
         if search_key_input in searchable_fields[table_mapping[table_selection]].mandatory_fields:
             search_value = input('Enter search value: ')
-            print(f'Searching {search_value} for {search_value}')
+            # necessary since python boolean is uppercase
+            if search_value == 'true' or search_value == 'false':
+                search_value = search_value.capitalize()
+            print(f'\nSearching {search_key_input} for {search_value}\n')
             return {
                 'model': self.data_sources[table_mapping[table_selection]]['model'],
                 'search_key': search_key_input,
