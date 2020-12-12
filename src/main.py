@@ -44,7 +44,8 @@ def main():
             search_params = ui.retrieve_search_params()
             if search_params:
                 search_engine = SearchEngine(index, search_params)
-                search_engine.search()
+                search_results = search_engine.search()
+                ui.display_search_data(search_results)
         elif search_selection == '2':
             ui.display_all_searchable_fields(ui.retrieve_searchable_fields())
         elif search_selection == 'quit':

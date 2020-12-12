@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import json
 
 class UserInterface:
     def __init__(self, data_sources):
@@ -40,6 +39,18 @@ class UserInterface:
                 print(field)
         print('\n')
 
+    def display_search_data(self, search_results):
+        if not search_results:
+            print('No results found')
+            return
+        print('Primary search results:')
+        for element in search_results['primary_data']:
+            print(element)
+        if search_results['shared_field_data']:
+            print('Associated search data:')
+            for element in search_results['shared_field_data']:
+                print(element)
+
 
     def retrieve_search_params(self):
         searchable_fields = self.retrieve_searchable_fields()
@@ -59,6 +70,7 @@ class UserInterface:
 
         if search_key_input in searchable_fields[table_mapping[table_selection]].mandatory_fields:
             search_value = input('Enter search value: ')
+            print(f'Searching {search_value} for {search_value}')
             return {
                 'model': self.data_sources[table_mapping[table_selection]]['model'],
                 'search_key': search_key_input,

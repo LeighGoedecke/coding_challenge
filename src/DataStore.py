@@ -18,10 +18,6 @@ class DataStore:
         }
 
 
-    def __verify_data_consistency(self):
-        # TODO find a way to scan through and ensure no obvious issues in the info
-        pass
-
     def __build_field_index_data_structure(self):
         data_structure = {}
         for field in self.data_structure.mandatory_fields:

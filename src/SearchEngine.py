@@ -10,34 +10,40 @@ class SearchEngine:
         model = self.search_params['model']
         search_key = self.search_params['search_key']
         search_value = self.search_params['search_value']
+
         if self.search_params['search_key'] != '_id':
-            discovered_id = self.index[model.name]['field_index'][search_key][search_value]
+            discovered_ids = self.__search_field_index(model.name, search_key, search_value)
         else:
-            discovered_id = search_value
+            discovered_ids = search_value
 
-        # Do id lookup
-        info_associated_with_id = []
-        if isinstance(discovered_id, list):
-            for some_id in discovered_id:
-                info_associated_with_id.append(self.search_by_id(model.name, some_id))
-        else:
-            info_associated_with_id = [self.search_by_id(model.name, discovered_id)]
+        if not isinstance(discovered_ids, list):
+            discovered_ids = [discovered_ids]
 
-        shared_field_info = []
-        if model.shared_fields:
-            for shared_field in model.shared_fields:
-                for info in info_associated_with_id:
-                    if shared_field in info:
-                        shared_id = str(info[shared_field])
-                        shared_field_info.append(self.search_by_id(model.shared_fields[shared_field], shared_id))
+        associated_ids = [self.__search_id_index(model.name, some_id) for some_id in discovered_ids]
 
-        print(info_associated_with_id)
-        print(shared_field_info)
+        if model.shared_fields and associated_ids:
+            shared_field_ids = self.__search_shared_field_info(model.shared_fields, associated_ids)
 
-    def search_by_id(self, model_name, id_to_search):
+        return {
+            'primary_data': associated_ids,
+            'shared_field_data': shared_field_ids
+        }
+
+    def __search_field_index(self, model_name, search_key, search_value):
+        if search_value in self.index[model_name]['field_index'][search_key]:
+            return self.index[model_name]['field_index'][search_key][search_value]
+
+    def __search_id_index(self, model_name, id_to_search):
         if id_to_search in self.index[model_name]['id_index']:
             return self.index[model_name]['id_index'][id_to_search]
 
-    def display_search_results(self):
-        pass
+    def __search_shared_field_info(self, shared_fields, associated_ids):
+        shared_field_id_lookup = []
+        for shared_field in shared_fields:
+            for id_data in associated_ids:
+                if id_data:
+                    if shared_field in id_data:
+                        shared_id = str(id_data[shared_field])
+                        shared_field_id_lookup.append(self.__search_id_index(shared_fields[shared_field], shared_id))
+        return shared_field_id_lookup
 
