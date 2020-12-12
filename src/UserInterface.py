@@ -40,13 +40,13 @@ class UserInterface:
         print('\n')
 
     def __print_underline(self):
-        print('--------------------------------------------------------------')
+        print('-----------------------------------------------------------------------')
 
     def __print_delimiter(self):
-        print('                    ----------------------                    ')
+        print('                        ----------------------                        ')
 
     def display_search_data(self, search_results):
-        if search_results['primary_data'][0] is None:
+        if not search_results['primary_data']:
             print('No results found')
             return
         print('Primary search results:')

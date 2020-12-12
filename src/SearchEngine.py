@@ -19,7 +19,7 @@ class SearchEngine:
         if not isinstance(discovered_ids, list):
             discovered_ids = [discovered_ids]
 
-        associated_ids = [self.__search_id_index(model.name, some_id) for some_id in discovered_ids]
+        associated_ids = [self.__search_id_index(model.name, some_id) for some_id in discovered_ids if self.__search_id_index(model.name, some_id)]
 
         shared_field_ids = []
         if model.shared_fields and associated_ids:
