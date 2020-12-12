@@ -1,24 +1,21 @@
 #!/usr/bin/python3
 
-import json
-from Users import Users
-from Tickets import Tickets
-from Organizations import Organizations
-
-# TODO look at combining index_by_id/field so only need to loop through data once
-
 class DataStore:
-    def __init__(self, data_structure, json_dump):
-        self.data_structure = data_structure
+    def __init__(self, model, json_dump):
+        self.data_structure = model
         self.json_dump = json_dump
-        # self.indexed_by_id = self.__index_by_id()
-        # self.indexed_by_field = self.__index_by_field()
+
 
     def index_data(self):
         id_index = {}
         field_index = self.__build_field_index_data_structure()
-
         for data in self.json_dump:
+            id_index = self.__index_by_id(id_index, data)
+            field_index = self.__index_by_field(field_index, data)
+        return {
+            'id_index': id_index,
+            'field_index': field_index
+        }
 
 
     def __verify_data_consistency(self):
@@ -32,54 +29,32 @@ class DataStore:
         return data_structure
 
 
-    def __index_by_id(self, data):
-        id_index = {}
-        for data in self.json_dump:
-            if not data['_id'] in id_index:
-                id_index[data['_id']] = data
-            else:
-                # TODO error handling since duplicate user ID not permitted
-                continue
-        return id_index
+    def __index_by_id(self, id_index, data):
+        id_to_index = str(data['_id'])
+        if not id_to_index in id_index:
+            id_index[id_to_index] = data
+            return id_index
+        else:
+            # TODO error handling since duplicate user ID not permitted
+            exit(1)
 
-    def __index_by_field(self):
-        field_index = self.__build_field_index_data_structure()
-        for data in self.json_dump:
-            for field in data:
 
-                # Managing list fields
-                if isinstance(data[field], list):
-                    for list_entry in data[field]:
-                        if list_entry not in field_index[field]:
-                            field_index[field][list_entry] = [data['_id']]
-                        else:
-                            field_index[field][list_entry].append(data['_id'])
+    def __index_by_field(self, field_index, data):
+        for field in data:
 
-                # Managing other fields
-                else:
-                    if data[field] in field_index[field]:
-                        field_index[field][data[field]].append(data['_id'])
+            # Managing list fields
+            if isinstance(data[field], list):
+                for list_entry in data[field]:
+                    if list_entry not in field_index[field]:
+                        field_index[field][str(list_entry)] = [str(data['_id'])]
                     else:
-                        field_index[field][data[field]] = [data['_id']]
+                        field_index[field][str(list_entry)].append(str(data['_id']))
+
+            # Managing other fields
+            else:
+                if data[field] in field_index[field]:
+                    field_index[field][str(data[field])].append(str(data['_id']))
+                else:
+                    field_index[field][str(data[field])] = [str(data['_id'])]
 
         return field_index
-
-
-# with open(f'resources/users.json') as f:
-#     user_data = json.loads(f.read())
-# user_structure = Users()
-# User = DataStore(user_structure, user_data)
-# print(User.indexed_by_field["url"])
-
-
-# with open(f'resources/tickets.json') as f:
-#     user_data = json.loads(f.read())
-# user_structure = Tickets()
-# User = DataStore(user_structure, user_data)
-# print(User.indexed_by_field["status"])
-
-# with open(f'resources/organizations.json') as f:
-#     user_data = json.loads(f.read())
-# user_structure = Organizations()
-# User = DataStore(user_structure, user_data)
-# print(User.indexed_by_field["name"])
