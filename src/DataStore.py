@@ -2,7 +2,7 @@
 
 class DataStore:
     def __init__(self, model, json_dump):
-        self.data_structure = model
+        self.model = model
         self.json_dump = json_dump
 
 
@@ -20,7 +20,7 @@ class DataStore:
 
     def __build_field_index_data_structure(self):
         data_structure = {}
-        for field in self.data_structure.possible_fields:
+        for field in self.model.possible_fields:
             data_structure[field] = {}
         return data_structure
 
@@ -31,13 +31,13 @@ class DataStore:
             id_index[id_to_index] = data
             return id_index
         else:
-            # TODO error handling since duplicate user ID not permitted
-            exit(1)
+            raise ValueError("Duplicate _id discovered within data set")
 
 
     def __index_by_field(self, field_index, data):
         for field in data:
-
+            if not field in self.model.possible_fields:
+                raise KeyError(f'Invalid data key discovered: {field}')
             # Managing list fields
             if isinstance(data[field], list):
                 for list_entry in data[field]:

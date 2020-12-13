@@ -27,13 +27,16 @@ def main():
 
     ui = UserInterface(data_sources)
 
-
-    index = {}
-    for record_type in data_sources:
-        source_file = data_sources[record_type]["source"]
-        model = data_sources[record_type]["model"]
-        data = read_data(source_file)
-        index[record_type] = DataStore(model, data).index_data()
+    try:
+        index = {}
+        for record_type in data_sources:
+            source_file = data_sources[record_type]["source"]
+            model = data_sources[record_type]["model"]
+            data = read_data(source_file)
+            index[record_type] = DataStore(model, data).index_data()
+    except (ValueError, KeyError) as e:
+        print(e)
+        return
 
     ui.display_intro()
     while True:
