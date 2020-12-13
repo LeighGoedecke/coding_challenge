@@ -35,7 +35,6 @@ def main():
         data = read_data(source_file)
         index[record_type] = DataStore(model, data).index_data()
 
-
     ui.display_intro()
     while True:
         search_selection = ui.retrieve_search_option()

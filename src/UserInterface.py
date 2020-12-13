@@ -35,7 +35,7 @@ class UserInterface:
         for category in searchable_fields:
             self.__print_underline()
             print(f'Search {category} with:')
-            for field in searchable_fields[category].mandatory_fields:
+            for field in searchable_fields[category].possible_fields:
                 print(field)
         print('\n')
 
@@ -96,7 +96,7 @@ class UserInterface:
         else:
             search_key_input =  input('Enter search key: ')
 
-        if search_key_input in searchable_fields[table_mapping[table_selection]].mandatory_fields:
+        if search_key_input in searchable_fields[table_mapping[table_selection]].possible_fields:
             search_value = input('Enter search value: ')
             # necessary since python boolean is uppercase
             if search_value == 'true' or search_value == 'false':
@@ -110,7 +110,7 @@ class UserInterface:
         else:
             print(f'Sorry {search_key_input} is not a valid search key')
             print('The available search fields for your selection are as follows:')
-            for field in searchable_fields[table_mapping[table_selection]].mandatory_fields:
+            for field in searchable_fields[table_mapping[table_selection]].possible_fields:
                 print(field)
 
 

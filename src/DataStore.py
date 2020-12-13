@@ -20,7 +20,7 @@ class DataStore:
 
     def __build_field_index_data_structure(self):
         data_structure = {}
-        for field in self.data_structure.mandatory_fields:
+        for field in self.data_structure.possible_fields:
             data_structure[field] = {}
         return data_structure
 

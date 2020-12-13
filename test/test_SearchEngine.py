@@ -2,44 +2,8 @@
 
 import unittest
 from src.SearchEngine import SearchEngine
-from src.DataStore import DataStore
-class DummyModel:
-    def __init__(self):
-        self.name = 'DummyModel'
-        self.mandatory_fields = ['_id', 'one_direction', 'description', 'cool_band', 'friend_id']
-        self.shared_fields = {
-            'AnotherDummyModel': {
-                '_id': ['friend_id']
-            }
-        }
+from test.test_config import *
 
-class AnotherDummyModel:
-    def __init__(self):
-        self.name = 'AnotherDummyModel'
-        self.mandatory_fields = ['_id', '5sos', 'description', 'a_cool_band', 'friend_id']
-        self.shared_fields = {
-            'DummyModel': {
-                '_id': ['friend_id']
-            }
-        }
-
-ANOTHER_DUMMY_MODEL_DATA = [{
-    '_id': 11,
-    '5sos': ['Luke', 'Calum', 'Michael'],
-    'description': 'also_some_band',
-    'a_cool_band': True,
-    'friend_id': 1
-},
-    {
-        '_id': 22,
-        '5sos': ['Ashton', 'Luke', 'Michael'],
-        'description': 'also_still_a_band',
-        'a_cool_band': True,
-        'friend_id': 2
-    }
-]
-
-# ANOTHER_DUMMY_MODEL_INDEX =
 ANOTHER_DUMMY_MODEL_INDEX = {'id_index': {'11': {'_id': 11, '5sos': ['Luke', 'Calum', 'Michael'], 'description': 'also_some_band', 'a_cool_band': True, 'friend_id': 1}, '22': {'_id': 22, '5sos': ['Ashton', 'Luke', 'Michael'], 'description': 'also_still_a_band', 'a_cool_band': True, 'friend_id': 2}}, 'field_index': {'_id': {'11': ['11'], '22': ['22']}, '5sos': {'Luke': ['11', '22'], 'Calum': ['11'], 'Michael': ['11', '22'], 'Ashton': ['22']}, 'description': {'also_some_band': ['11'], 'also_still_a_band': ['22']}, 'a_cool_band': {'True': ['11', '22']}, 'friend_id': {'1': ['11'], '2': ['22']}}}
 DUMMY_MODEL_INDEX = {'id_index': {'1': {'_id': 1, 'one_direction': ['Zayn', 'Harry', 'Liam'], 'description': 'some_band', 'cool_band': True, 'friend_id': 22}, '2': {'_id': 2, 'one_direction': ['Liam', 'Louis', 'Zayn'], 'description': 'still_a_band', 'cool_band': True, 'friend_id': 22}}, 'field_index': {'_id': {'1': ['1'], '2': ['2']}, 'one_direction': {'Zayn': ['1', '2'], 'Harry': ['1'], 'Liam': ['1', '2'], 'Louis': ['2']}, 'description': {'some_band': ['1'], 'still_a_band': ['2']}, 'cool_band': {'True': ['1', '2']}, 'friend_id': {'22': ['1', '2']}}}
 
