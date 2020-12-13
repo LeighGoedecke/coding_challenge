@@ -3,7 +3,8 @@
 Zendesk Search is a command line application written in python which searches through company data and displays the results in a human readable format.
 
 ## About
-# TODO REMOVE INDEX CHAT HERE (and write more informally , I did blah blah)
+
+* TODO REMOVE INDEX CHAT HERE (and write more informally , I did blah blah)
 Zendesk Search accepts json data stored within the `/resources/` folder. Zendesk Search indexes the data both by primary id and by each searchable field so that searches execute quickly even as the size of the data sets increase. Based on the relationships between each data set, as defined in `/src/models/`, search results which directly relate to the search query are presented along with associated data.
 
 ## Getting Started
