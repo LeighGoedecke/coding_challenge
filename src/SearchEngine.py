@@ -38,13 +38,20 @@ class SearchEngine:
         if id_to_search in self.index[model_name]['id_index']:
             return self.index[model_name]['id_index'][id_to_search]
 
+
     def __search_shared_field_info(self, shared_fields, associated_ids):
         shared_field_id_lookup = []
-        for shared_field in shared_fields:
-            for id_data in associated_ids:
-                if id_data:
-                    if shared_field in id_data:
-                        shared_id = str(id_data[shared_field])
-                        shared_field_id_lookup.append(self.__search_id_index(shared_fields[shared_field], shared_id))
+        for model in shared_fields:
+            for shared_field in shared_fields[model]:
+                ids_found_per_model = []
+                for associated_id in associated_ids:
+                    for field in shared_fields[model][shared_field]:
+                        shared_id_discovery = self.__search_field_index(model, shared_field, str(associated_id[field]))
+                        if shared_id_discovery:
+                            ids_found_per_model.extend(shared_id_discovery)
+                        for found_id in ids_found_per_model:
+                            found_data = shared_field_id_lookup.append(self.__search_id_index(model, found_id))
+                            if found_data:
+                                shared_field_id_lookup.append(found_data)
         return shared_field_id_lookup
 
