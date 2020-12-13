@@ -37,6 +37,55 @@ DUMMY_MODEL_DATA = [{
     }
 ]
 
+BAD_FIELD_DUMMY_MODEL_DATA = [{
+    '_id': 1,
+    'one_direction': ['Zayn', 'Harry', 'Liam'],
+    'best_band_ever': True,
+    'description': 'some_band',
+    'cool_band': True,
+    'friend_id': 22
+},
+    {
+        '_id': 2,
+        'one_direction': ['Liam', 'Louis', 'Zayn'],
+        'description': 'still_a_band',
+        'cool_band': True,
+        'friend_id': 22
+    }
+]
+
+DUPLICATE_ID_DUMMY_MODEL_DATA = [{
+    '_id': 1,
+    'one_direction': ['Zayn', 'Harry', 'Liam'],
+    'best_band_ever': True,
+    'description': 'some_band',
+    'cool_band': True,
+    'friend_id': 22
+},
+    {
+        '_id': 1,
+        'one_direction': ['Liam', 'Louis', 'Zayn'],
+        'description': 'still_a_band',
+        'cool_band': True,
+        'friend_id': 22
+    }
+]
+
+NO_ID_DUMMY_MODEL_DATA = [{
+    'one_direction': ['Zayn', 'Harry', 'Liam'],
+    'description': 'some_band',
+    'cool_band': True,
+    'friend_id': 22
+},
+    {
+        '_id': 2,
+        'one_direction': ['Liam', 'Louis', 'Zayn'],
+        'description': 'still_a_band',
+        'cool_band': True,
+        'friend_id': 22
+    }
+]
+
 
 ANOTHER_DUMMY_MODEL_DATA = [{
     '_id': 11,

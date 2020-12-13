@@ -23,7 +23,7 @@ class SearchEngine:
 
         shared_field_ids = []
         if model.shared_fields and associated_ids:
-            shared_field_ids = self.__search_shared_field_info(model.shared_fields, associated_ids)
+            shared_field_ids = self.__get_associated_records(model.shared_fields, associated_ids)
 
         return {
             'primary_data': associated_ids,
@@ -39,19 +39,20 @@ class SearchEngine:
             return self.index[model_name]['id_index'][id_to_search]
 
 
-    def __search_shared_field_info(self, shared_fields, associated_ids):
-        shared_field_id_lookup = []
+    def __get_associated_records(self, shared_fields, associated_ids):
+        # TODO rename some variables here - shared_id_discovery, ids_found_per_model
+        associated_records = []
         for model in shared_fields:
             for shared_field in shared_fields[model]:
-                ids_found_per_model = []
+                ids_found_per_model = [] # TODO extract into another method
                 for associated_id in associated_ids:
                     for field in shared_fields[model][shared_field]:
                         shared_id_discovery = self.__search_field_index(model, shared_field, str(associated_id[field]))
                         if shared_id_discovery:
                             ids_found_per_model.extend(shared_id_discovery)
                         for found_id in ids_found_per_model:
-                            found_data = shared_field_id_lookup.append(self.__search_id_index(model, found_id))
+                            found_data = associated_records.append(self.__search_id_index(model, found_id))
                             if found_data:
-                                shared_field_id_lookup.append(found_data)
-        return shared_field_id_lookup
+                                associated_records.append(found_data)
+        return associated_records
 

@@ -31,12 +31,12 @@ class UserInterface:
         return searchable_fields
 
     def display_all_searchable_fields(self, searchable_fields):
-        print(searchable_fields)
         for category in searchable_fields:
-            self.__print_underline()
             print(f'Search {category} with:')
+            self.__print_underline()
             for field in searchable_fields[category].possible_fields:
                 print(field)
+            self.__print_delimiter()
         print('\n')
 
     def __print_underline(self):
@@ -59,6 +59,9 @@ class UserInterface:
             for result in search_results['shared_field_data']:
                 self.__dict_printer(result)
 
+    def display_error(self, error):
+        print(error)
+        self.exit_search_app()
 
     def __lists_to_strings(self, dict_to_print):
         tidy_dict = {}
@@ -75,7 +78,6 @@ class UserInterface:
 
     def __dict_printer(self, dict_to_print):
         cleaned_dict = self.__lists_to_strings(dict_to_print)
-        # TODO check if the string slice is appropriate
         [print('{:<25} {:>45}'.format(key, value)) for key, value in cleaned_dict.items()]
         self.__print_delimiter()
 

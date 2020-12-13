@@ -6,7 +6,8 @@ from SearchEngine import SearchEngine
 from models.Users import Users
 from models.Tickets import Tickets
 from models.Organizations import Organizations
-from data_reader import read_data
+from DataReader import DataReader
+from InvalidDataError import InvalidDataError
 
 
 def main():
@@ -26,23 +27,23 @@ def main():
     }
 
     ui = UserInterface(data_sources)
-
+    data_reader = DataReader()
     try:
         index = {}
         for record_type in data_sources:
             source_file = data_sources[record_type]["source"]
             model = data_sources[record_type]["model"]
-            data = read_data(source_file)
+            data = data_reader.read_data(source_file)
             index[record_type] = DataStore(model, data).index_data()
-    except (ValueError, KeyError) as e:
-        print(e)
+    except InvalidDataError as e:
+        ui.display_error(e)
         return
 
     ui.display_intro()
     while True:
+        # TODO hardcode 1,2,quit into user
         search_selection = ui.retrieve_search_option()
         if search_selection == '1':
-            # TODO make broken search params not break search logic
             search_params = ui.retrieve_search_params()
             if search_params:
                 search_engine = SearchEngine(index, search_params)

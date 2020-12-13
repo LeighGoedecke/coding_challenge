@@ -9,3 +9,4 @@ echo 'Running tests'
 python3 test/test_DataStore.py
 python3 test/test_SearchEngine.py
 python3 test/test_functional.py
+python3 test/test_DataReader.py
