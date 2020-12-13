@@ -28,13 +28,13 @@ I chose to organise user, organization and ticket data into two data sets each -
 
 
 ## Screenshots
-Search UI\
+Search UI:\
 <img width="516" alt="Screen Shot 2020-12-14 at 1 13 15 am" src="https://user-images.githubusercontent.com/29794761/102014347-8c724b00-3da9-11eb-927d-c5aa880a33b8.png">
 
-Displaying data directly associated with the search query:
+Displaying data directly associated with the search query:\
 <img width="595" alt="Screen Shot 2020-12-14 at 1 14 49 am" src="https://user-images.githubusercontent.com/29794761/102014389-c6435180-3da9-11eb-845a-2351cfa1c703.png">
 
-Displaying associated organization and ticket
+Displaying associated organization and ticket\
 <img width="581" alt="Screen Shot 2020-12-14 at 1 17 08 am" src="https://user-images.githubusercontent.com/29794761/102014448-191d0900-3daa-11eb-82c9-42d70eb1d09e.png">
 
-
+### TODO: maybe include error screenshots??

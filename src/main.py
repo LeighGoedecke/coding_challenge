@@ -8,6 +8,7 @@ from models.Tickets import Tickets
 from models.Organizations import Organizations
 from DataReader import DataReader
 from InvalidDataError import InvalidDataError
+import json
 
 
 def main():
@@ -35,9 +36,9 @@ def main():
             model = data_sources[record_type]["model"]
             data = data_reader.read_data(source_file)
             index[record_type] = DataStore(model, data).index_data()
-    except InvalidDataError as e:
-        ui.display_error(e)
-        return
+    except (InvalidDataError, FileNotFoundError, json.decoder.JSONDecodeError) as e:
+        ui.display_error(e, record_type, source_file)
+
 
     ui.display_intro()
     while True:

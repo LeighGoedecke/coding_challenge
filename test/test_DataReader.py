@@ -5,10 +5,10 @@ import unittest.mock as um
 from src.DataReader import DataReader
 import json
 
-# TODO test bad json error
+# TODO test bad filepath error
 
 class TestDataReader(unittest.TestCase):
-    def test_read_data_successfully(self):
+    def test_read_well_formed_json(self):
         well_formed_json = json.dumps({
             'test': 123,
         })
@@ -17,6 +17,14 @@ class TestDataReader(unittest.TestCase):
             data_reader = DataReader()
             fake_data = data_reader.read_data('file/path')
             self.assertEqual(fake_data, {'test': 123})
+
+    def test_read_poorly_formed_json_throws_error(self):
+        not_json = 'definitely_not_json'
+
+        with um.patch('builtins.open', um.mock_open(read_data=not_json)):
+            with self.assertRaises(json.decoder.JSONDecodeError):
+                data_reader = DataReader()
+                data_reader.read_data('file/path')
 
 
 if __name__ == '__main__':

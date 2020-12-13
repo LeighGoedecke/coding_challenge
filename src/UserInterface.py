@@ -58,7 +58,8 @@ class UserInterface:
             for result in search_results['associated_field_data']:
                 self.__dict_printer(result)
 
-    def display_error(self, error):
+    def display_error(self, error, model_name, source_file):
+        print(f'Error encountered indexing {model_name}, from {source_file}')
         print(error)
         self.exit_search_app()
 

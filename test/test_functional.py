@@ -5,6 +5,7 @@ from src.DataStore import DataStore
 from src.SearchEngine import SearchEngine
 from test.fixtures import *
 
+# TODO plug in data reader maybe
 
 class FunctionalTest(unittest.TestCase):
     def test_connect_data_store_with_search_engine(self):

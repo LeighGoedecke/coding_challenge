@@ -2,10 +2,14 @@
 
 import json
 
-# TODO add error handling for bad json
+# TODO add error handling for bad filepath
+# TODO make json decode error more descriptive
 
 
 class DataReader:
     def read_data(self, filename):
-        with open(filename) as f:
-            return json.loads(f.read())
+        try:
+            with open(filename) as f:
+                return json.loads(f.read())
+        except (json.decoder.JSONDecodeError, FileNotFoundError) as e:
+            raise e
