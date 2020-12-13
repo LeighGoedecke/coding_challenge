@@ -1,11 +1,10 @@
-# Zendesk Search
+# Zendesk Search :telescope:
 
 Zendesk Search is a command line application written in python which searches through company data and displays the results in a human readable format.
 
 ## About
 
-* TODO REMOVE INDEX CHAT HERE (and write more informally , I did blah blah)
-Zendesk Search accepts json data stored within the `/resources/` folder. Zendesk Search indexes the data both by primary id and by each searchable field so that searches execute quickly even as the size of the data sets increase. Based on the relationships between each data set, as defined in `/src/models/`, search results which directly relate to the search query are presented along with associated data.
+Zendesk Search accepts json data stored within the `/resources/` folder. Users input which data set they'd like to search against and Zendesk Search presents data directly related to the search query along with associated data. Relationships between data sets are specified within `/src/models/`.
 
 ## Getting Started
 ### Prerequisites
@@ -17,10 +16,16 @@ To start Zendesk Search run the following from the project's root directory:\
 To run tests run the following from the project's root directory:\
 `./scripts/run_tests.sh`
 
-## Design Decisions, Assumptions and Tradeoffs
+## Design Decisions and Tradeoffs
 
-Zendesk Search separately organises user, organization and ticket data into an inverted index. This means that the each lookup occurs in constant time regardless of the size of the data set. However indexing the data in this way uses a relatively larger amount of memory than if we were to simply loop through each data set to perform the search.
+I chose to organise user, organization and ticket data into two data sets each - the first set is indexed by the primary id `_id` and the second set is indexed by each of the searchable fields. There is a memory cost associated with indexing the data like this since all records are essentially stored twice, however an inverted index allows lookups to occur in constant time regardless of the size of the data set. 
 
-The search app assumes that each `_id` value is unique within its category (users, organizations, tickets) and must be present for each data element. It is also assumed that the mandatory fields as defined in /src/models/ are an exhaustive set of the possible fields for each category - no fields other than what's specified within `possible_fields` can be provided.
+## Assumptions
+
+* Each `_id` value is unique within its category (users, organizations, tickets) and must be present for each data element. 
+* Mandatory fields as defined in `/src/models/` are an exhaustive set of the possible fields for each category - no fields other than what's specified within `possible_fields` can be provided.
+* Only the numeric id fields are shared between data sets. This application does not look for shared tags between users/tickets/organizations.
+
 
 ## Screenshots
+

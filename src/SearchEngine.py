@@ -6,28 +6,32 @@ class SearchEngine:
         self.search_params = search_params
 
     def search(self):
-        # if search key is anything else then we go to our field_index to retrieve id (or ids)
         model = self.search_params['model']
         search_key = self.search_params['search_key']
         search_value = self.search_params['search_value']
 
+        # finding ids directly associated with search parameters
         if self.search_params['search_key'] != '_id':
-            discovered_ids = self.__search_field_index(model.name, search_key, search_value)
+            primary_ids = self.__search_field_index(
+                model.name, search_key, search_value)
         else:
-            discovered_ids = search_value
+            primary_ids = search_value
 
-        if not isinstance(discovered_ids, list):
-            discovered_ids = [discovered_ids]
+        if not isinstance(primary_ids, list):
+            primary_ids = [primary_ids]
 
-        associated_ids = [self.__search_id_index(model.name, some_id) for some_id in discovered_ids if self.__search_id_index(model.name, some_id)]
+        # searching id_index for full data set for each primary id
+        primary_id_dicts = [self.__search_id_index(model.name,some_id) for some_id in primary_ids if self.__search_id_index(model.name,some_id)]
 
-        shared_field_ids = []
-        if model.shared_fields and associated_ids:
-            shared_field_ids = self.__get_associated_records(model.shared_fields, associated_ids)
+        # finding associated field data
+        associated_field_dicts = []
+        if model.associated_fields and primary_id_dicts:
+            associated_field_dicts = self.__get_associated_records(
+                model.associated_fields, primary_id_dicts)
 
         return {
-            'primary_data': associated_ids,
-            'shared_field_data': shared_field_ids
+            'primary_data': primary_id_dicts,
+            'associated_field_data': associated_field_dicts
         }
 
     def __search_field_index(self, model_name, search_key, search_value):
@@ -38,21 +42,18 @@ class SearchEngine:
         if id_to_search in self.index[model_name]['id_index']:
             return self.index[model_name]['id_index'][id_to_search]
 
-
-    def __get_associated_records(self, shared_fields, associated_ids):
-        # TODO rename some variables here - shared_id_discovery, ids_found_per_model
+    def __get_associated_records(self, associated_fields, primary_id_dicts):
         associated_records = []
-        for model in shared_fields:
-            for shared_field in shared_fields[model]:
-                ids_found_per_model = [] # TODO extract into another method
-                for associated_id in associated_ids:
-                    for field in shared_fields[model][shared_field]:
-                        shared_id_discovery = self.__search_field_index(model, shared_field, str(associated_id[field]))
-                        if shared_id_discovery:
-                            ids_found_per_model.extend(shared_id_discovery)
-                        for found_id in ids_found_per_model:
-                            found_data = associated_records.append(self.__search_id_index(model, found_id))
+        for model in associated_fields:
+            for associated_field in associated_fields[model]:
+                associated_ids = []  # TODO extract into another method
+                for primary_id in primary_id_dicts:
+                    for field in associated_fields[model][associated_field]:
+                        associated_id_discovery = self.__search_field_index(model, associated_field, str(primary_id[field]))
+                        if associated_id_discovery:
+                            associated_ids.extend(associated_id_discovery)
+                        for found_id in associated_ids:
+                            found_data = self.__search_id_index(model, found_id)
                             if found_data:
                                 associated_records.append(found_data)
         return associated_records
-

@@ -23,7 +23,7 @@ class TestSearchEngine(unittest.TestCase):
             'search_value': existing_id
         }
         search_result = SearchEngine(INDEX, search_params).search()
-        self.assertEqual(search_result, {'primary_data': [{'_id': 2, 'one_direction': ['Liam', 'Louis', 'Zayn'], 'description': 'still_a_band', 'cool_band': True, 'friend_id': 22}], 'shared_field_data': [{'_id': 22, '5sos': ['Ashton', 'Luke', 'Michael'], 'description': 'also_still_a_band', 'a_cool_band': True, 'friend_id': 2}]})
+        self.assertEqual(search_result, {'primary_data': [{'_id': 2, 'one_direction': ['Liam', 'Louis', 'Zayn'], 'description': 'still_a_band', 'cool_band': True, 'friend_id': 22}], 'associated_field_data': [{'_id': 22, '5sos': ['Ashton', 'Luke', 'Michael'], 'description': 'also_still_a_band', 'a_cool_band': True, 'friend_id': 2}]})
 
     def test_null_search_by_id(self):
         not_existing_id = '3'
@@ -34,7 +34,7 @@ class TestSearchEngine(unittest.TestCase):
             'search_value': not_existing_id
         }
         search_result = SearchEngine(INDEX, search_params).search()
-        self.assertEqual(search_result, {'primary_data': [], 'shared_field_data': []})
+        self.assertEqual(search_result, {'primary_data': [], 'associated_field_data': []})
 
 
     def test_successful_search_by_field(self):
@@ -47,7 +47,7 @@ class TestSearchEngine(unittest.TestCase):
             'search_value': existing_value
         }
         search_result = SearchEngine(INDEX, search_params).search()
-        self.assertEqual(search_result, {'primary_data': [{'_id': 11, '5sos': ['Luke', 'Calum', 'Michael'], 'description': 'also_some_band', 'a_cool_band': True, 'friend_id': 1}], 'shared_field_data': [{'_id': 1, 'one_direction': ['Zayn', 'Harry', 'Liam'], 'description': 'some_band', 'cool_band': True, 'friend_id': 22}]})
+        self.assertEqual(search_result, {'primary_data': [{'_id': 11, '5sos': ['Luke', 'Calum', 'Michael'], 'description': 'also_some_band', 'a_cool_band': True, 'friend_id': 1}], 'associated_field_data': [{'_id': 1, 'one_direction': ['Zayn', 'Harry', 'Liam'], 'description': 'some_band', 'cool_band': True, 'friend_id': 22}]})
 
 
     def test_null_search_by_field(self):
@@ -60,7 +60,7 @@ class TestSearchEngine(unittest.TestCase):
             'search_value': not_existing_value
         }
         search_result = SearchEngine(INDEX, search_params).search()
-        self.assertEqual(search_result, {'primary_data': [], 'shared_field_data': []})
+        self.assertEqual(search_result, {'primary_data': [], 'associated_field_data': []})
 
     def test_search_by_list_field(self):
         list_field = '5sos'
@@ -72,7 +72,7 @@ class TestSearchEngine(unittest.TestCase):
             'search_value': existing_value
         }
         search_result = SearchEngine(INDEX, search_params).search()
-        self.assertEqual(search_result,  {'primary_data': [{'_id': 11, '5sos': ['Luke', 'Calum', 'Michael'], 'description': 'also_some_band', 'a_cool_band': True, 'friend_id': 1}], 'shared_field_data': [{'_id': 1, 'one_direction': ['Zayn', 'Harry', 'Liam'], 'description': 'some_band', 'cool_band': True, 'friend_id': 22}]})
+        self.assertEqual(search_result,  {'primary_data': [{'_id': 11, '5sos': ['Luke', 'Calum', 'Michael'], 'description': 'also_some_band', 'a_cool_band': True, 'friend_id': 1}], 'associated_field_data': [{'_id': 1, 'one_direction': ['Zayn', 'Harry', 'Liam'], 'description': 'some_band', 'cool_band': True, 'friend_id': 22}]})
 
 
 if __name__ == '__main__':

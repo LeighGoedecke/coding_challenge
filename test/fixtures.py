@@ -4,7 +4,7 @@ class DummyModel:
     def __init__(self):
         self.name = 'DummyModel'
         self.possible_fields = ['_id', 'one_direction', 'description', 'cool_band', 'friend_id']
-        self.shared_fields = {
+        self.associated_fields = {
             'AnotherDummyModel': {
                 '_id': ['friend_id']
             }
@@ -14,7 +14,7 @@ class AnotherDummyModel:
     def __init__(self):
         self.name = 'AnotherDummyModel'
         self.possible_fields = ['_id', '5sos', 'description', 'a_cool_band', 'friend_id']
-        self.shared_fields = {
+        self.associated_fields = {
             'DummyModel': {
                 '_id': ['friend_id']
             }
