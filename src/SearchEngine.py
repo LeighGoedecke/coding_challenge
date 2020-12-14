@@ -46,14 +46,15 @@ class SearchEngine:
         associated_records = []
         for model in associated_fields:
             for associated_field in associated_fields[model]:
-                associated_ids = []  # TODO extract into another method
+                associated_ids = []
                 for primary_id in primary_id_dicts:
                     for field in associated_fields[model][associated_field]:
-                        associated_id_discovery = self.__search_field_index(model, associated_field, str(primary_id[field]))
-                        if associated_id_discovery:
-                            associated_ids.extend(associated_id_discovery)
-                        for found_id in associated_ids:
-                            found_data = self.__search_id_index(model, found_id)
-                            if found_data:
-                                associated_records.append(found_data)
+                        if field in primary_id:
+                            associated_id_discovery = self.__search_field_index(model, associated_field, str(primary_id[field]))
+                            if associated_id_discovery:
+                                associated_ids.extend(associated_id_discovery)
+                            for found_id in associated_ids:
+                                found_data = self.__search_id_index(model, found_id)
+                                if found_data and found_data not in associated_records:
+                                    associated_records.append(found_data)
         return associated_records
