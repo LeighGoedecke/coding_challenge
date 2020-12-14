@@ -3,6 +3,9 @@
 class UserInterface:
     def __init__(self, data_sources):
         self.data_sources = data_sources
+        self.run_search = '1'
+        self.show_searchable_fields = '2'
+        self.exit_option = 'quit'
         self.table_mapping = {
             '1': 'Users',
             '2': 'Tickets',
@@ -87,10 +90,12 @@ class UserInterface:
                 'search_value': search_value
             }
         else:
-            print(f'\nSorry {search_key_input} is not a valid search key')
-            print('The available search fields for your selection are as follows:\n')
+            self.__print_underline()
+            print(f'Sorry {search_key_input} is not a valid search key')
+            print('The available search fields for your selection are as follows:')
             for field in searchable_fields[self.table_mapping[table_selection]].possible_fields:
                 print(field)
+            self.__print_delimiter()
 
     def __lists_to_strings(self, dict_to_print):
         tidy_dict = {}

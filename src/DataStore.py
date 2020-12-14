@@ -2,7 +2,6 @@
 
 from InvalidDataError import InvalidDataError
 
-
 class DataStore:
     def __init__(self, model, json_dump):
         self.model = model

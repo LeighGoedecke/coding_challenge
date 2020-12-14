@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import unittest
+
 from src.DataStore import DataStore
 from InvalidDataError import InvalidDataError
 from test.fixtures import *

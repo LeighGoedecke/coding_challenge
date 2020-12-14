@@ -2,10 +2,10 @@
 
 import unittest
 import unittest.mock as um
-from src.DataReader import DataReader
 import json
 
-# TODO test bad filepath error
+from src.DataReader import DataReader
+
 
 class TestDataReader(unittest.TestCase):
     def test_read_well_formed_json(self):

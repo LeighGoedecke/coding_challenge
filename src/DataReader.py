@@ -2,10 +2,6 @@
 
 import json
 
-# TODO add error handling for bad filepath
-# TODO make json decode error more descriptive
-
-
 class DataReader:
     def read_data(self, filename):
         try:

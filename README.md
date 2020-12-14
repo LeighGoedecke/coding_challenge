@@ -18,7 +18,10 @@ To run tests run the following from the project's root directory:\
 
 ## Design Decisions and Tradeoffs
 
-I chose to organise user, organization and ticket data into two data sets each - the first set is indexed by the primary id `_id` and the second set is indexed by each of the searchable fields. There is a memory cost associated with indexing the data like this since all records are essentially stored twice, however an inverted index allows lookups to occur in constant time regardless of the size of the data set. 
+
+I chose to organize user, organizations and ticket information into two indexes each. The first index matches primary id values `_id` to the full dictionary of information associated with that id. The second index matches field keys and values to a list of primary ids. 
+
+If a user searches by `_id`, a single lookup is run in the id index to find the full record with that id. For searches against any other field, two lookups are run: the first lookup searches the field index for primary ids, the second lookup searches the id index for the records with those ids. There is a memory cost associated with indexing the data like this since all records are essentially stored twice, however an inverted index allows lookups to occur in constant time regardless of the size of the data set. 
 
 
 ## Assumptions
@@ -35,7 +38,5 @@ Search UI:\
 Displaying data directly associated with the search query:\
 <img width="595" alt="Screen Shot 2020-12-14 at 1 14 49 am" src="https://user-images.githubusercontent.com/29794761/102014389-c6435180-3da9-11eb-845a-2351cfa1c703.png">
 
-Displaying associated organization and ticket\
+Displaying associated organization and ticket:\
 <img width="581" alt="Screen Shot 2020-12-14 at 1 17 08 am" src="https://user-images.githubusercontent.com/29794761/102014448-191d0900-3daa-11eb-82c9-42d70eb1d09e.png">
-
-### TODO: maybe include error screenshots??
