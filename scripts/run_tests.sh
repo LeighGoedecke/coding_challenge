@@ -10,3 +10,4 @@ python3 test/test_DataStore.py
 python3 test/test_SearchEngine.py
 python3 test/test_functional.py
 python3 test/test_DataReader.py
+python3 test/test_UserInterface.py

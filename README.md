@@ -20,6 +20,7 @@ To run tests run the following from the project's root directory:\
 
 I chose to organise user, organization and ticket data into two data sets each - the first set is indexed by the primary id `_id` and the second set is indexed by each of the searchable fields. There is a memory cost associated with indexing the data like this since all records are essentially stored twice, however an inverted index allows lookups to occur in constant time regardless of the size of the data set. 
 
+
 ## Assumptions
 
 * Each `_id` value is unique within its category (users, organizations, tickets) and must be present for each data element. 
